@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import { takeEvery, put } from 'redux-saga/effects';
+import axios from 'axios';
 
 import App from './App';
 
@@ -12,6 +14,8 @@ const startingPlantArray = [
   { id: 3, name: 'Oak' }
 ];
 
+
+
 const plantList = (state = startingPlantArray, action) => {
   switch (action.type) {
     case 'ADD_PLANT':
@@ -20,6 +24,18 @@ const plantList = (state = startingPlantArray, action) => {
       return state;
   }
 };
+
+function* deletePlantSaga(action) {
+  try {
+    yield axios({
+      method: 'DELETE',
+      url: '/fruit/' + action.payload
+    });
+    yield put({ type: 'GET_PLANTS' });
+  } catch(err) {
+    console.log('something wrong with DELETE: ', err);
+  }
+}
 
 const store = createStore(
   combineReducers({ plantList }),
