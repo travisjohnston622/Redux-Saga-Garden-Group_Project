@@ -7,7 +7,9 @@ const mapStateToProps = reduxState => ({
 
 class PlantList extends Component {
     componentDidMount() {
-        // use component did mount to dispatch an action to request the plantList from the API
+      this.props.dispatch({
+          type: 'GET_PLANTS',
+      });
     }
 
     render() {
@@ -19,5 +21,6 @@ class PlantList extends Component {
         );
     }
 }
+
 
 export default connect(mapStateToProps)(PlantList);
