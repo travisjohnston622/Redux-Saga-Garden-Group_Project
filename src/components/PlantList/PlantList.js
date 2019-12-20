@@ -13,7 +13,7 @@ class PlantList extends Component {
     render() {
         return (
             <div>
-                {this.props.reduxState.plantListReducer.map((item, index) => {
+                {this.props.store.plantListReducer.map((item, index) => {
                     return (
                         <PlantListItem key={index} plant={item} />
                     )

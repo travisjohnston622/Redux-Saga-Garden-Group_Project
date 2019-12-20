@@ -17,9 +17,7 @@ const middlewareList = process.env.NODE_ENV === 'development' ?
   [sagaMiddleware];
 
 const store = createStore(
-  combineReducers({ 
-    rootReducer,
-  }),
+  rootReducer,
   applyMiddleware(...middlewareList),
 )
 

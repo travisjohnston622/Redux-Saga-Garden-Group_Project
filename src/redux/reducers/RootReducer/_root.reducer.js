@@ -4,8 +4,7 @@ import plantListReducer from '../PlantListReducer/plantList.reducer';
 
 const rootReducer = combineReducers({
     plantListReducer,
-
+    
 })
-
 
 export default rootReducer;
