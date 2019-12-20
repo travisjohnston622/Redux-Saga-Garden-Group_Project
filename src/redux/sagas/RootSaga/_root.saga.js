@@ -6,6 +6,7 @@ function* rootSaga() {
     yield all(
         [
             deletePlantSaga(),
+            getPlantsSaga(),
         ]
     );
 }
