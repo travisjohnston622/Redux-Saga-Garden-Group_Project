@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { takeEvery, put } from 'redux-saga/effects';
 import axios from 'axios';
-
+import createSagaMiddleware from 'redux-saga';
 import App from './App';
-
+import logger from 'redux-logger';
 // this startingPlantArray should eventually be removed
 const startingPlantArray = [
   { id: 1, name: 'Rose' },
@@ -16,14 +16,28 @@ const startingPlantArray = [
 
 
 
-const plantList = (state = startingPlantArray, action) => {
-  switch (action.type) {
-    case 'ADD_PLANT':
-      return [ ...state, action.payload ]
-    default:
-      return state;
+
+// const plantList = (state = startingPlantArray, action) => {
+//   switch (action.type) {
+//     case 'ADD_PLANT':
+//       return [ ...state, action.payload ]
+//     default:
+//       return state;
+//   }
+// };
+
+function* addPlantSaga(action) {
+  try {
+    yield axios({
+      method: 'POST',
+      url: '/fruit',
+      data: action.payload
+    });
+    yield put({type: 'GET_PLANTS'});
+  }catch(err) {
+    console.log('something wrong with POST: ', err);
   }
-};
+}
 
 function* deletePlantSaga(action) {
   try {
@@ -37,8 +51,19 @@ function* deletePlantSaga(action) {
   }
 }
 
+function* watcherSaga() {
+  console.log('In Watcher Saga');
+  yield takeEvery('GET_ELEMENTS', deletePlantSaga);
+  yield takeEvery('POST_PLANT', addPlantSaga);
+}
+
+const sagaMiddleware = createSagaMiddleware();
+
 const store = createStore(
-  combineReducers({ plantList }),
+  combineReducers({ plantListReducer }),
+  applyMiddleware(sagaMiddleware, logger),
 );
+
+sagaMiddleware.run(watcherSaga);
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('react-root'));
