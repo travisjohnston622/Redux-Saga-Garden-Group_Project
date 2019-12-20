@@ -4,17 +4,15 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-import { takeEvery, put } from 'redux-saga/effects';
-import axios from 'axios';
 
 import rootSaga from './redux/sagas/RootSaga/_root.saga';
 import App from './App';
 
-const middlewareList = process.env.NODE_ENV = 'development' ?
-  [sagaMiddleware, logger] :
-  [sagaMiddleware];
-
 const sagaMiddleware = createSagaMiddleware();
+
+// const middlewareList = process.env.NODE_ENV = 'development' ?
+//   [sagaMiddleware, logger] :
+//   [sagaMiddleware];
 
 // this startingPlantArray should eventually be removed
 const startingPlantArray = [
@@ -22,8 +20,6 @@ const startingPlantArray = [
   { id: 2, name: 'Tulip' },
   { id: 3, name: 'Oak' }
 ];
-
-
 
 const plantList = (state = startingPlantArray, action) => {
   switch (action.type) {
@@ -34,20 +30,9 @@ const plantList = (state = startingPlantArray, action) => {
   }
 };
 
-function* deletePlantSaga(action) {
-  try {
-    yield axios({
-      method: 'DELETE',
-      url: '/fruit/' + action.payload
-    });
-    yield put({ type: 'GET_PLANTS' });
-  } catch(err) {
-    console.log('something wrong with DELETE: ', err);
-  }
-}
-
 const store = createStore(
   combineReducers({ plantList }),
+  applyMiddleware(...sagaMiddleware),
 );
 
 sagaMiddleware.run(rootSaga);
