@@ -8,7 +8,6 @@ const mapStateToProps = reduxState => ({
 class NewPlantForm extends Component {
     state = {
         newPlant: {
-            id: 4,
             name: '',
             kingdom:'',
             clade: '',
@@ -23,6 +22,7 @@ class NewPlantForm extends Component {
         console.log('event happended')
         this.setState({
             newPlant: {
+                ...this.state.newPlant,
                 [inputKey]: event.target.value,
             }
         });
@@ -30,7 +30,6 @@ class NewPlantForm extends Component {
     }
 
     addNewPlant = event => {
-        event.preventDefault();
         this.props.dispatch({ type: 'ADD_PLANT', payload: this.state.newPlant });
     }
 
@@ -39,7 +38,7 @@ class NewPlantForm extends Component {
             <div>
                 <h3>This is the form</h3>
                 <pre>{JSON.stringify(this.state)}</pre>
-                <form onSubmit={this.addNewPlant}>
+                onSubmit={this.addNewPlant}
                     <input type='text' value={this.state.newPlant.name} placeholder="name" onChange={(event)=>this.handleNameChange(event, 'name')} />
                     <input type='text' value={this.state.newPlant.kingdom} placeholder="kingdom" onChange={(event)=>this.handleNameChange(event, 'kingdom')} />
                     <input type='text' value={this.state.newPlant.clade} placeholder="clade" onChange={(event)=>this.handleNameChange(event, 'clade')} />
@@ -47,9 +46,7 @@ class NewPlantForm extends Component {
                     <input type='text' value={this.state.newPlant.family} placeholder="family" onChange={(event)=>this.handleNameChange(event, 'family')} />
                     <input type='text' value={this.state.newPlant.subfamily} placeholder="subfamily" onChange={(event)=>this.handleNameChange(event, 'subfamily')} />
                     <input type='text' value={this.state.newPlant.genus} placeholder="genus" onChange={(event)=>this.handleNameChange(event, 'genus')} />
-
-                    <input type='submit' value='Add New Plant' />
-                </form>
+                    <button onClick={this.addNewPlant}>submit</button>
             </div>
         );
     }
