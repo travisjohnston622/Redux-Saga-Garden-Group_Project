@@ -5,7 +5,7 @@ function* deletePlant(action) {
     try {
         yield axios({
             method: 'DELETE',
-            url: '/fruit/' + action.payload
+            url: '/api/plant/' + action.payload
         });
         yield put({ type: 'GET_PLANTS' });
     } catch(err) {
