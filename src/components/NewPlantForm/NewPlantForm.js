@@ -38,7 +38,6 @@ class NewPlantForm extends Component {
             <div>
                 <h3>This is the form</h3>
                 <pre>{JSON.stringify(this.state)}</pre>
-                onSubmit={this.addNewPlant}
                     <input type='text' value={this.state.newPlant.name} placeholder="name" onChange={(event)=>this.handleNameChange(event, 'name')} />
                     <input type='text' value={this.state.newPlant.kingdom} placeholder="kingdom" onChange={(event)=>this.handleNameChange(event, 'kingdom')} />
                     <input type='text' value={this.state.newPlant.clade} placeholder="clade" onChange={(event)=>this.handleNameChange(event, 'clade')} />

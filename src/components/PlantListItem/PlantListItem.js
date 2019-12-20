@@ -7,7 +7,7 @@ class PlantListItem extends Component {
     removePlant = () => {
         this.props.dispatch({
             type: 'DELETE_PLANT',
-            payload: this.props.plant.id 
+            payload: this.props.store.plant.id 
         })
     }
 

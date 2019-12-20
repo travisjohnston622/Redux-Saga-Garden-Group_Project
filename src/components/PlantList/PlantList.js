@@ -18,7 +18,6 @@ class PlantList extends Component {
                         <PlantListItem key={index} plant={item} />
                     )
                 })}
-                <pre>{JSON.stringify(this.props.reduxState)}</pre>
             </div>
         );
     }
