@@ -11,7 +11,7 @@ import App from './App';
 const sagaMiddleware = createSagaMiddleware();
 
 console.log(process.env.NODE_ENV);
-const middlewareList = process.env.NODE_ENV == 'development' ?
+const middlewareList = process.env.NODE_ENV === 'development' ?
   [sagaMiddleware, logger] :
   [sagaMiddleware];
 

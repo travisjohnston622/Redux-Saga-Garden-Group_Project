@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-const mapStateToProps = reduxState => ({
-    reduxState,
-});
+import PlantListItem from '../PlantListItem/PlantListItem';
+import mapStoreToProps from '../../redux/mapStoreToProps';
 
 class PlantList extends Component {
     componentDidMount() {
@@ -15,12 +13,15 @@ class PlantList extends Component {
     render() {
         return (
             <div>
-                <h3>This is the plant list</h3>
+                {this.props.reduxState.plantListReducer.map((item, index) => {
+                    return (
+                        <PlantListItem key={index} plant={item} />
+                    )
+                })}
                 <pre>{JSON.stringify(this.props.reduxState)}</pre>
             </div>
         );
     }
 }
 
-
-export default connect(mapStateToProps)(PlantList);
+export default connect(mapStoreToProps)(PlantList);
