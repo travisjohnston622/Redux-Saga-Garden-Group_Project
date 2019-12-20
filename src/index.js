@@ -10,9 +10,10 @@ import App from './App';
 
 const sagaMiddleware = createSagaMiddleware();
 
-// const middlewareList = process.env.NODE_ENV = 'development' ?
-//   [sagaMiddleware, logger] :
-//   [sagaMiddleware];
+console.log(process.env.NODE_ENV);
+const middlewareList = process.env.NODE_ENV == 'development' ?
+  [sagaMiddleware, logger] :
+  [sagaMiddleware];
 
 // this startingPlantArray should eventually be removed
 const startingPlantArray = [
@@ -32,7 +33,7 @@ const plantList = (state = startingPlantArray, action) => {
 
 const store = createStore(
   combineReducers({ plantList }),
-  applyMiddleware(...sagaMiddleware),
+  applyMiddleware(...middlewareList),
 );
 
 sagaMiddleware.run(rootSaga);
