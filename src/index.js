@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
 
-import rootSaga from './redux/sagas/RootSaga/_root.saga';
 import App from './App';
+import rootReducer from './redux/reducers/RootReducer/_root.reducer';
+import rootSaga from './redux/sagas/RootSaga/_root.saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -15,26 +16,12 @@ const middlewareList = process.env.NODE_ENV === 'development' ?
   [sagaMiddleware, logger] :
   [sagaMiddleware];
 
-// this startingPlantArray should eventually be removed
-const startingPlantArray = [
-  { id: 1, name: 'Rose' },
-  { id: 2, name: 'Tulip' },
-  { id: 3, name: 'Oak' }
-];
-
-const plantList = (state = startingPlantArray, action) => {
-  switch (action.type) {
-    case 'ADD_PLANT':
-      return [ ...state, action.payload ]
-    default:
-      return state;
-  }
-};
-
 const store = createStore(
-  combineReducers({ plantList }),
+  combineReducers({ 
+    rootReducer,
+  }),
   applyMiddleware(...middlewareList),
-);
+)
 
 sagaMiddleware.run(rootSaga);
 
